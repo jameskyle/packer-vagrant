@@ -25,7 +25,9 @@ if [[ "${PACKER_BUILDER_TYPE}" =~ "virtualbox" ]]; then
   set -e
 else
 	mkdir -p /mnt/floppy
-    #modprobe floppy
+	if [[ -e /etc/redhat-release ]]; then # 7.x has os-release
+	    modprobe floppy
+	fi
     mount -t vfat /dev/fd0 /mnt/floppy
 
 	tar xzvf ${MOUNTDIR}/VMwareTools*.tar.gz -C ${WORKDIR}

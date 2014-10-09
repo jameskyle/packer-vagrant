@@ -1,7 +1,10 @@
+TEMPLATESDIR ?= templates
 
+boxes/vmware/%.box: $(TEMPLATESDIR)/%.json
+	packer build --force $(TEMPLATESDIR)/$*.json
 
-centos70:
-	packer build templates/centos70.json
+boxes/virtualbox/%.box: $(TEMPLATESDIR)/%.json
+	packer build --force $(TEMPLATESDIR)/$*.json
 
 clean:
 	rm -rf packer_cache
