@@ -1,0 +1,101 @@
+{
+    "builders": [
+        {
+            "boot_command": [
+                "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/centos7.ks<enter>"
+            ],
+            "boot_wait": "5s",
+            "disk_size": 40000,
+            "guest_additions_path": "/home/vagrant/linux.iso",
+            "guest_os_type": "RedHat_64",
+            "headless": "{{ user `headless` }}",
+            "http_directory": "http",
+            "iso_checksum": "{{ user `iso_checksum` }}",
+            "iso_checksum_type": "sha256",
+            "iso_url": "{{ user `iso_url` }}",
+            "shutdown_command": "sudo -S shutdown -P now",
+            "ssh_password": "vagrant",
+            "ssh_username": "vagrant",
+            "ssh_wait_timeout": "20m",
+            "type": "virtualbox-iso",
+            "vboxmanage": [
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--memory",
+                    "1024"
+                ],
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--cpus",
+                    "1"
+                ]
+            ],
+            "vm_name": "centos-7.0-x86_64"
+        },
+        {
+            "boot_command": [
+                "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/centos7.ks<enter>"
+            ],
+            "boot_wait": "5s",
+            "disk_size": 40000,
+            "disk_type_id": "0",
+            "guest_os_type": "centos-64",
+            "headless": "{{ user `headless` }}",
+            "http_directory": "http",
+            "iso_checksum": "{{ user `iso_checksum` }}",
+            "iso_checksum_type": "sha256",
+            "iso_url": "{{ user `iso_url` }}",
+            "shutdown_command": "sudo -S shutdown -P now",
+            "ssh_password": "vagrant",
+            "ssh_username": "vagrant",
+            "ssh_wait_timeout": "20m",
+            "tools_upload_flavor": "linux",
+            "tools_upload_path": "/home/vagrant/{{ .Flavor }}.iso",
+            "type": "vmware-iso",
+            "vm_name": "centos-7.0-x86_64",
+            "vmx_data": {
+                "cpuid.coresPerSocket": "1",
+                "ethernet0.virtualDev": "vmxnet3",
+                "memsize": "1024",
+                "numvcpus": "1",
+                "virtualHW.version": "10"
+            }
+        }
+    ],
+    "post-processors": [
+        {
+            "keep_input_artifact": false,
+            "output": "boxes/{{.Provider}}/centos-7.0-x86_64.box",
+            "type": "vagrant"
+        }
+    ],
+    "provisioners": [
+        {
+            "environment_vars": [
+                "PUPPET_REPO={{ user `puppetrepo` }}",
+                "OS_FAMILY={{ user `os_family` }}"
+            ],
+            "execute_command": "{{.Vars}} sudo -E -S bash '{{.Path}}'",
+            "scripts": [
+                "scripts/update.sh",
+                "scripts/network.sh",
+                "scripts/sudoers.sh",
+                "scripts/keys.sh",
+                "scripts/vmtools.sh",
+                "scripts/puppet.sh",
+                "scripts/cleanup.sh"
+            ],
+            "type": "shell"
+        }
+    ],
+    "variables": {
+        "headless": false,
+        "iso_checksum": "04e99a4f1a013b95a7ebc9a90ffa9ac64d28eb9872bc193fbd7c581ec9b6a360",
+        "iso_url": "http://mirror.stanford.edu/yum/pub/centos/7/isos/x86_64/CentOS-7.0-1406-x86_64-Minimal.iso",
+        "kickstart": "centos65.ks",
+        "os_family": "RedHat",
+        "puppetrepo": "http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm"
+    }
+}

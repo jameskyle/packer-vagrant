@@ -30,11 +30,16 @@ EOF
 }
 
 function main() {
-	if [[ "${PACKER_BUILDER_TYPE}" =~ "virtualbox" ]]; then
-		res_options
-	fi
-	sshd
-	configs
+  if [[ $OS_FAMILY == "RedHat" ]]; then
+    echo "==== Configuring Net for RedHat Family OS's ==="
+  	if [[ "${PACKER_BUILDER_TYPE}" =~ "virtualbox" ]]; then
+      res_options
+    fi
+    sshd
+    configs
+  else
+    echo "===== Using Default Net Configuration ======="
+  fi
 }
 
 main

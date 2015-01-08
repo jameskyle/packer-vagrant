@@ -1,0 +1,141 @@
+{
+    "builders": [
+        {
+            "boot_command": [
+                "<esc><wait>",
+                "<esc><wait>",
+                "<enter><wait>",
+                "/install/vmlinuz<wait>",
+                " auto<wait>",
+                " console-setup/ask_detect=false<wait>",
+                " console-setup/layoutcode=us<wait>",
+                " console-setup/modelcode=pc105<wait>",
+                " debconf/frontend=noninteractive<wait>",
+                " debian-installer=en_US<wait>",
+                " fb=false<wait>",
+                " initrd=/install/initrd.gz<wait>",
+                " kbd-chooser/method=us<wait>",
+                " keyboard-configuration/layout=USA<wait>",
+                " keyboard-configuration/variant=USA<wait>",
+                " locale=en_US<wait>",
+                " netcfg/get_hostname=ubuntu-1404<wait>",
+                " netcfg/get_domain=vagrantup.com<wait>",
+                " noapic<wait>",
+                " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}//{{ user `preseed` }}<wait>",
+                " -- <wait>",
+                "<enter><wait>"
+            ],
+            "boot_wait": "5s",
+            "disk_type_id": "0",
+            "guest_os_type": "ubuntu-64",
+            "headless": "{{ user `headless` }}",
+            "http_directory": "http",
+            "iso_checksum": "{{ user `iso_checksum` }}",
+            "iso_checksum_type": "sha256",
+            "iso_url": "{{ user `iso_url` }}",
+            "shutdown_command": "echo vagrant | sudo -S shutdown -P now",
+            "ssh_password": "vagrant",
+            "ssh_username": "vagrant",
+            "ssh_wait_timeout": "20m",
+            "tools_upload_flavor": "linux",
+            "tools_upload_path": "/home/vagrant/linux.iso",
+            "type": "vmware-iso",
+            "vm_name": "ubuntu-14.04-server-amd64",
+            "vmx_data": {
+                "cpuid.coresPerSocket": "1",
+                "ethernet0.virtualDev": "vmxnet3",
+                "memsize": "1024",
+                "numvcpus": "1",
+                "virtualHW.version": "10"
+            }
+        },
+        {
+            "boot_command": [
+                "<esc><wait>",
+                "<esc><wait>",
+                "<enter><wait>",
+                "/install/vmlinuz<wait>",
+                " auto<wait>",
+                " console-setup/ask_detect=false<wait>",
+                " console-setup/layoutcode=us<wait>",
+                " console-setup/modelcode=pc105<wait>",
+                " debconf/frontend=noninteractive<wait>",
+                " debian-installer=en_US<wait>",
+                " fb=false<wait>",
+                " initrd=/install/initrd.gz<wait>",
+                " kbd-chooser/method=us<wait>",
+                " keyboard-configuration/layout=USA<wait>",
+                " keyboard-configuration/variant=USA<wait>",
+                " locale=en_US<wait>",
+                " netcfg/get_hostname=ubuntu-1404<wait>",
+                " netcfg/get_domain=vagrantup.com<wait>",
+                " noapic<wait>",
+                " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{ user `preseed` }}<wait>",
+                " -- <wait>",
+                "<enter><wait>"
+            ],
+            "boot_wait": "5s",
+            "guest_additions_path": "/home/vagrant/linux.iso",
+            "guest_os_type": "Ubuntu_64",
+            "headless": "{{ user `headless` }}",
+            "http_directory": "http",
+            "iso_checksum": "{{ user `iso_checksum` }}",
+            "iso_checksum_type": "sha256",
+            "iso_url": "{{ user `iso_url` }}",
+            "shutdown_command": "echo vagrant  | sudo -S shutdown -P now",
+            "ssh_password": "vagrant",
+            "ssh_username": "vagrant",
+            "ssh_wait_timeout": "20m",
+            "type": "virtualbox-iso",
+            "vboxmanage": [
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--memory",
+                    "1024"
+                ],
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--cpus",
+                    "1"
+                ]
+            ],
+            "vm_name": "ubuntu-14.04-server-amd64"
+        }
+    ],
+    "post-processors": [
+        {
+            "keep_input_artifact": false,
+            "output": "boxes/{{.Provider}}/ubuntu-14.04-amd64.box",
+            "type": "vagrant"
+        }
+    ],
+    "provisioners": [
+        {
+            "environment_vars": [
+                "PUPPET_REPO={{ user `puppetrepo` }}",
+                "OS_FAMILY={{ user `os_family` }}"
+            ],
+            "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+            "scripts": [
+                "scripts/update.sh",
+                "scripts/network.sh",
+                "scripts/sudoers.sh",
+                "scripts/keys.sh",
+                "scripts/vmtools.sh",
+                "scripts/puppet.sh",
+                "scripts/cleanup.sh"
+            ],
+            "type": "shell"
+        }
+    ],
+    "variables": {
+        "headless": false,
+        "iso_checksum": "ababb88a492e08759fddcf4f05e5ccc58ec9d47fa37550d63931d0a5fa4f7388",
+        "iso_url": "http://releases.ubuntu.com/trusty/ubuntu-14.04-server-amd64.iso",
+        "os_family": "Debian",
+        "preseed": "ubuntu14.04.preseed",
+        "puppetrepo": "https://apt.puppetlabs.com/puppetlabs-release-trusty.deb"
+    }
+}
