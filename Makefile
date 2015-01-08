@@ -1,5 +1,6 @@
 TEMPLATESDIR ?= templates
-BASE_URL = http://boxes.att.io
+DOMAIN ?= boxes.att.io
+BASE_URL ?= http://$(DOMAIN)
 
 version: check-version
 	ssh boxes.att.io mkdir -p /var/boxes/centos/boxes/centos-7.0-x86_64/versions/$(VERSION)/providers/
