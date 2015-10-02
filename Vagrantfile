@@ -55,5 +55,18 @@ Vagrant.configure("2") do |config|
       v.cpus = 1
     end
   end
+  
+  config.vm.define "ubuntu15.04" do |t|
+    t.vm.box = "jkyle/ubuntu-15.04-amd64"
+    t.vm.provider "virtualbox" do |v|
+      v.memory = 512
+      v.cpus = 1
+    end
+
+    t.vm.provider "vmware_fusion" do |v|
+      v.memory = 512
+      v.cpus = 1
+    end
+  end
 
 end

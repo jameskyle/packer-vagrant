@@ -9,6 +9,7 @@
             "guest_additions_path": "/home/vagrant/linux.iso",
             "guest_os_type": "RedHat_64",
             "headless": "{{ user `headless` }}",
+            "ssh_pty" : "true",
             "http_directory": "http",
             "iso_checksum": "{{ user `iso_checksum` }}",
             "iso_checksum_type": "sha256",
@@ -32,13 +33,14 @@
                     "1"
                 ]
             ],
-            "vm_name": "centos-6.5-x86_64"
+            "vm_name": "centos-6.7-x86_64"
         },
         {
             "boot_command": [
                 "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/{{ user `kickstart` }}<enter>"
             ],
             "boot_wait": "5s",
+            "ssh_pty" : "true",
             "disk_size": 40000,
             "disk_type_id": "0",
             "guest_os_type": "centos-64",
@@ -54,7 +56,7 @@
             "tools_upload_flavor": "linux",
             "tools_upload_path": "/home/vagrant/{{ .Flavor }}.iso",
             "type": "vmware-iso",
-            "vm_name": "centos-6.5-x86_64",
+            "vm_name": "centos-6.7-x86_64",
             "vmx_data": {
                 "cpuid.coresPerSocket": "1",
                 "ethernet0.virtualDev": "vmxnet3",
@@ -67,7 +69,7 @@
     "post-processors": [
         {
             "keep_input_artifact": false,
-            "output": "boxes/{{.Provider}}/centos-6.5-x86_64.box",
+            "output": "boxes/{{.Provider}}/centos-6.7-x86_64.box",
             "type": "vagrant"
         }
     ],
@@ -91,9 +93,9 @@
         }
     ],
     "variables": {
-        "headless": false,
-        "iso_checksum": "f9d84907d77df62017944cb23cab66305e94ee6ae6c1126415b81cc5e999bdd0",
-        "iso_url": "http://mirror.stanford.edu/yum/pub/centos/6.5/isos/x86_64/CentOS-6.5-x86_64-minimal.iso",
+        "headless": "false",
+        "iso_checksum": "9d3fec5897be6b3fed4d3dda80b8fa7bb62c616bbfd4bdcd27295ca9b764f498",
+        "iso_url": "http://mirror.stanford.edu/yum/pub/centos/6/isos/x86_64/CentOS-6.7-x86_64-minimal.iso",
         "kickstart": "centos65.ks",
         "os_family": "RedHat",
         "puppetrepo": "http://yum.puppetlabs.com/el/6/products/x86_64/puppetlabs-release-6-7.noarch.rpm"

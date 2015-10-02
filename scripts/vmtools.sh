@@ -23,7 +23,7 @@ function redhat() {
 }
 
 function debian() {
-  apt-get install build-essential linux-headers-server -y
+  apt-get install build-essential linux-headers-generic -y
 }
 
 function redhat_finish() {
@@ -37,7 +37,7 @@ EOF
 }
 
 function debian_finish() {
-  apt-get purge linux-headers-server build-essential -y
+  apt-get purge linux-headers-generic build-essential -y
 }
 
 function init() {

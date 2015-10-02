@@ -6,6 +6,7 @@ version: check-version
 	ssh boxes.att.io mkdir -p /var/boxes/centos/boxes/centos-7.0-x86_64/versions/$(VERSION)/providers/
 	ssh boxes.att.io mkdir -p /var/boxes/centos/boxes/centos-6.5-x86_64/versions/$(VERSION)/providers/
 	ssh boxes.att.io mkdir -p /var/boxes/ubuntu/boxes/ubuntu-14.04-amd64/versions/$(VERSION)/providers/
+	ssh boxes.att.io mkdir -p /var/boxes/ubuntu/boxes/ubuntu-15.04-amd64/versions/$(VERSION)/providers/
 
 upload: version upload_centos7 upload_centos6 upload_trusty
 

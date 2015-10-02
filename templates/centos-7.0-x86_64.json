@@ -13,6 +13,7 @@
             "iso_checksum": "{{ user `iso_checksum` }}",
             "iso_checksum_type": "sha256",
             "iso_url": "{{ user `iso_url` }}",
+            "ssh_pty" : "true",
             "shutdown_command": "sudo -S shutdown -P now",
             "ssh_password": "vagrant",
             "ssh_username": "vagrant",
@@ -51,6 +52,7 @@
             "ssh_password": "vagrant",
             "ssh_username": "vagrant",
             "ssh_wait_timeout": "20m",
+            "ssh_pty" : "true",
             "tools_upload_flavor": "linux",
             "tools_upload_path": "/home/vagrant/{{ .Flavor }}.iso",
             "type": "vmware-iso",
@@ -91,9 +93,9 @@
         }
     ],
     "variables": {
-        "headless": false,
-        "iso_checksum": "04e99a4f1a013b95a7ebc9a90ffa9ac64d28eb9872bc193fbd7c581ec9b6a360",
-        "iso_url": "http://mirror.stanford.edu/yum/pub/centos/7/isos/x86_64/CentOS-7.0-1406-x86_64-Minimal.iso",
+        "headless": "false",
+        "iso_checksum": "7cf1ac8da13f54d6be41e3ccf228dc5bb35792f515642755ff4780d5714d4278",
+        "iso_url": "http://mirror.stanford.edu/yum/pub/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso",
         "kickstart": "centos65.ks",
         "os_family": "RedHat",
         "puppetrepo": "http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm"
